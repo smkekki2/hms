@@ -2,7 +2,7 @@
 <html lang="en">
 
 
-<!-- Mirrored from codervent.com/rocker/demo/vertical/auth-header-footer-signin.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 08 Apr 2023 13:10:57 GMT -->
+<!-- Mirrored from codervent.com/rocker/demo/vertical/auth-header-footer-signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 08 Apr 2023 13:11:07 GMT -->
 <head>
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
@@ -22,7 +22,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&amp;display=swap" rel="stylesheet">
 	<link href="{{asset('public/css/app.css')}}" rel="stylesheet">
 	<link href="{{asset('public/css/icons.css')}}" rel="stylesheet">
-	<title>Hospital Management Sysyem</title>
+	<title>MOSES Register</title>
 </head>
 
 <body class="">
@@ -32,7 +32,7 @@
 			<nav class="navbar navbar-expand-lg navbar-light rounded-0 bg-white fixed-top rounded-0 shadow-none border-bottom">
 				<div class="container-fluid">
 					<a class="navbar-brand" href="#">
-						<img src="{{asset('public//images/logo-img.png')}}" width="140" alt="" />
+						<img src="assets/images/logo-img.png" width="160" alt="" />
 					</a>
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>
 					</button>
@@ -51,59 +51,62 @@
 				</div>
 			</nav>
 		</header>
-		<div class="section-authentication-signin d-flex align-items-center justify-content-center my-5 my-lg-4">
-			<div class="container">
+		<div class="d-flex align-items-center justify-content-center my-5">
+			<div class="container-fluid">
 				<div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
 					<div class="col mx-auto">
-						<div class="card my-5 my-lg-0 shadow-none border">
+						<div class="card my-5 shadow-none border">
 							<div class="card-body">
 								<div class="p-4">
 									<div class="text-center mb-4">
-										<h5 class="">Admin</h5>
-										<p class="mb-0">Please log in to your account</p>
+										<h5 class="">Create Account</h5>
+										<p class="mb-0">Please fill the below details to create your account</p>
 									</div>
-									@if($errors->any())
-										@foreach ($errors->all() as $error)
-											<p style="color:red">{{$error}}</p>
-										@endforeach
+									@if(session()->has('success'))
+										<div class="alert alert-success">
+											{{ session()->get('success') }}
+										</div>
 									@endif
 									<div class="form-body">
-										<form class="row g-3" action="{{route('admin.dashboard')}}" method="post">
+										<form class="row g-3" action="{{route('admin.register')}}" method="post">
 											@csrf
 											<div class="col-12">
-												<label for="inputEmailAddress" class="form-label">Email</label>
-												<input type="email" class="form-control" id="inputEmailAddress" name="email" placeholder="jhon@example.com">
+												<label for="inputUsername" class="form-label">Name</label>
+												<input type="text" class="form-control" id="inputUsername" name="name" placeholder="Jhon" required>
+											</div>
+											<div class="col-12">
+												<label for="inputEmailAddress" class="form-label">Email Address</label>
+												<input type="email" class="form-control" id="inputEmailAddress" placeholder="example@user.com" name="email" required>
+											</div>
+											<div class="col-12">
+												<label for="phone" class="form-label">Phone</label>
+												<input type="number" class="form-control" id="phone" placeholder="99999999" name="phone" required>
+											</div>
+											<div class="col-12">
+												<label for="role" class="form-label">Role</label>
+												<input type="number" class="form-control" id="role" placeholder="1" name="role" required>
 											</div>
 											<div class="col-12">
 												<label for="inputChoosePassword" class="form-label">Password</label>
 												<div class="input-group" id="show_hide_password">
-													<input type="password" class="form-control border-end-0" id="inputChoosePassword" name="password" placeholder="Enter Password"> 
-													<a href="javascript:;" class="input-group-text"><i class='bx bx-hide'></i></a>
+													<input type="password" class="form-control border-end-0" id="inputChoosePassword"  placeholder="Enter Password" name="password" required>
+													 <a href="javascript:;" class="input-group-text"><i class='bx bx-hide'></i></a>
 												</div>
 											</div>
-											<div class="col-md-6">
-												{{-- <div class="form-check form-switch">
-													<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
-													<label class="form-check-label" for="flexSwitchCheckChecked">Remember Me</label>
-												</div> --}}
-											</div>
-											<div class="col-md-6 text-end">	<a href="authentication-forgot-password.html">Forgot Password ?</a>
-											</div>
+											
 											<div class="col-12">
 												<div class="d-grid">
-													{{-- <button type="submit" class="btn btn-primary">Sign in</button> --}}
-													<input type="submit" value="Sign in" class="btn btn-primary">
+													<button type="submit" class="btn btn-primary">Sign up</button>
 												</div>
 											</div>
 											<div class="col-12">
-												<div class="text-center">
-													<p class="mb-0">Don't have an account yet? <a href="authentication-signup.html">Sign up here</a>
-													</p>
+												<div class="text-center ">
+													<p class="mb-0">Already have an account? <a href="{{route('admin.login')}}">Sign in here</a></p>
 												</div>
 											</div>
 										</form>
 									</div>
-									<div class="login-separater text-center mb-5"> <span class="">OR SIGN IN WITH</span>
+									<div class="login-separater text-center mb-5"> <span class="">OR SIGN UP WITH EMAIL</span>
 										<hr/>
 									</div>
 									<div class="list-inline contacts-social text-center">
@@ -122,7 +125,7 @@
 			</div>
 		</div>
 		<footer class="bg-white shadow-none border-top p-2 text-center fixed-bottom">
-			<p class="mb-0">Copyright © 2023. All right reserved.</p>
+			<p class="mb-0">Copyright © 2022. All right reserved.</p>
 		</footer>
 	</div>
 	<!--end wrapper-->
@@ -151,9 +154,7 @@
 		});
 	</script>
 	<!--app JS-->
-	<script src="{{asset('public/js/app.js')}}"></script>
+	<script src="assets/js/app.js"></script>
 </body>
 
-
-<!-- Mirrored from codervent.com/rocker/demo/vertical/auth-header-footer-signin.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 08 Apr 2023 13:11:07 GMT -->
 </html>
