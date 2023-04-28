@@ -24,7 +24,12 @@ class AdminController extends Controller
      */
     public function index(Request $request)
     {
-        if(Auth::user() && Auth::user()->role_id == 1){
+        // if(Auth::user() && Auth::user()->role_id == 1){
+        //     return redirect('admin/dashboard');   
+        // }else{
+        //     return  view('admin.login');
+        // }
+        if($request->session()->has('ADMIN_LOGIN')){
             return redirect('admin/dashboard');   
         }else{
             return  view('admin.login');
@@ -38,26 +43,30 @@ class AdminController extends Controller
             'email' => 'bail|string|required|email|max:255',
             'password' => 'required'
         ]);
-        // dd($pas);
-        // dd($request->all());
-        // dd(Auth::attempt([
-        //     'email' => $request->email,
-        //     'password' => $request->password
-        // ]));
-        
+        dd(Auth::attempt([
+            'email' => $request->email,
+            'password' => $request->password
+        ]));
         if(Auth::attempt([
             'email' => $request->email,
             'password' => $request->password
         ])){
             $userID = auth()->user()->id;
             $user = User::find($userID);
-            // dd(session()->all());
-            return  view('admin.dashboard');
+            $request->session()->put('ADMIN_LOGIN',true);
+            $request->session()->put('ADMIN_ID', $userID);
+            $request->session()->put('ADMIN_USER', $user);
+            return redirect('admin/dashboard');
         }else{
             return back()->with('error', 'Email and Password is incorrect');
         }
         
     
+    }
+
+    public function dashboard()
+    {
+        return  view('admin.dashboard');
     }
 
     public function register()
@@ -88,6 +97,14 @@ class AdminController extends Controller
 
         $createUser = User::create($data);
         return redirect('/admin/register')->with('success','User register successfully');
+    }
+
+
+    public function logout(Request $request)
+    {
+        \Session::flush();
+        \Auth::logout();
+        return redirect('/');
     }
     /**
      * Show the form for creating a new resource.
@@ -153,5 +170,10 @@ class AdminController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function test()
+    {
+        return view("admin.layouts.side");
     }
 }

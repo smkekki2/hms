@@ -22,20 +22,27 @@ Route::get('/', function () {
     return view('admin.login');
 });
 Route::get('/admin/login',function(){
-    return view('webapp.login');
+    return view('admin.login');
 });
 
 Route::get('/admin/login' , [AdminController::class,'index'])->name('admin.login');
 Route::get('/admin/register' , [AdminController::class,'register']);
 Route::post('/admin/registration' , [AdminController::class,'registration'])->name('admin.register');
 Route::post('/admin/dasboard' , [AdminController::class,'login'])->name('admin.dashboard');
+
 // Route::group(['middleware' => ['web','checkAdmin']], function(){
-//     Route::get('/admin/dasboard' , [AdminController::class,'login'])->name('admin.dashboard');
+//     Route::post('/admin/dasboard' , [AdminController::class,'login'])->name('admin.dashboard');
 // });
 
-// Route::group(['middleware' => 'admin_auth'], function(){
-//     Route::get('/admin/dasboard' , [AdminController::class,'login'])->name('admin.dashboard');
 
-// });
+Route::group(['middleware' => 'admin_auth'], function(){
+
+    
+    Route::get('/test',[AdminController::class,"test"]);
+});
+
+
+
+Route::get('logout' , [AdminController::class,'logout'])->name('admin.logout');
  
 
